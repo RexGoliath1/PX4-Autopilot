@@ -1989,7 +1989,6 @@ void EKF2::PublishStatus(const hrt_abstime &timestamp)
 	static constexpr float kMinTestRatioPreflight = 0.5f;
 	status.pre_flt_fail_innov_heading   = (kMinTestRatioPreflight < status.hdg_test_ratio);
 
-
 	// Warn when we're trying to arm if no yaw_alignment
 	vehicle_status_s vehicle_status;
 	if (_status_sub.copy(&vehicle_status)) {
