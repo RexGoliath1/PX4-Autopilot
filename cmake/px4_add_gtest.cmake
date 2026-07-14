@@ -153,7 +153,11 @@ function(px4_add_functional_gtest)
 		endif()
 		# whole-archive so the daemon app-map stubs link even for small
 		# test libs, where link order would otherwise drop them
-		list(APPEND _FUNCTIONAL_GTEST_LIBS -Wl,--whole-archive test_stubs -Wl,--no-whole-archive)
+		if(APPLE)
+			list(APPEND _FUNCTIONAL_GTEST_LIBS -Wl,-force_load,$<TARGET_FILE:test_stubs>)
+		else()
+			list(APPEND _FUNCTIONAL_GTEST_LIBS -Wl,--whole-archive test_stubs -Wl,--no-whole-archive)
+		endif()
 		target_link_libraries(${TESTNAME} PRIVATE ${_FUNCTIONAL_GTEST_LIBS})
 
 		target_compile_definitions(${TESTNAME} PRIVATE MODULE_NAME="${TESTNAME}")
